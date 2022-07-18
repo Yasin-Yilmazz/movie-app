@@ -1,0 +1,28 @@
+@import "../../sass/reset";
+@import "../../sass/variable";
+
+.searchNav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: #eee;
+  .button {
+    padding: 0.5rem 1rem;
+    background-color: $green;
+    color: #fff;
+    border-radius: 0.3rem;
+    border: none;
+    cursor: pointer;
+    &:hover {
+      background-color: $softGreen;
+      transition: all 1s;
+    }
+  }
+  input {
+    font-size: 1.5rem;
+    border-radius: 0.2rem;
+    border-style: groove;
+    letter-spacing: 2px;
+  }
+}
