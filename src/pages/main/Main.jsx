@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "../../components/navbar/Navbar";
 import SearchBar from "../../components/searchbar/SearchBar";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -26,7 +25,6 @@ const Main = () => {
 
   return (
     <div>
-      <Navbar />
       <SearchBar getData={getData} />
       <MovieCard />
     </div>

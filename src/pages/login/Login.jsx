@@ -1,19 +1,35 @@
-import React from "react";
-import Navbar from "../../components/navbar/Navbar";
+import React, { useState } from "react";
 import styles from "./Login.module.scss";
-// import userIcon from "../../assets/userIcon.png";
 import { FaUserAlt } from "react-icons/fa";
+import { useNavigate } from "react-router";
+import { signIn } from "../../firebase";
 
 const Login = () => {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    signIn(email, password, navigate);
+  };
+
   return (
     <div>
-      <Navbar />
       <div className={styles.container}>
-        <form className={styles.formContainer}>
+        <form className={styles.formContainer} onSubmit={handleSubmit}>
           <label htmlFor="header">USER LOGIN</label>
           <FaUserAlt className={styles.userIcon} />
-          <input type="text" placeholder="Username" />
-          <input type="password" placeholder="Password" />
+          <input
+            type="email"
+            placeholder="Email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <button type="submit" className={styles.button}>
             Log In
           </button>
