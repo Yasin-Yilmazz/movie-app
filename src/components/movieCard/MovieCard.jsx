@@ -15,7 +15,6 @@ const MovieCard = ({ poster_path, title, overview, vote_average, id }) => {
   const handleCardDetail = () => {
     navigate("/detail/" + id);
     !currentUser && toastWarnNotify("Please log in to see details");
-    console.log(id);
   };
 
   return (
