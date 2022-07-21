@@ -1,11 +1,11 @@
 import styles from "./Navbar.module.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import AuthContext from "../../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
+import { logOut } from "../../firebase";
 const Navbar = () => {
   const navigate = useNavigate();
-  const currentUser = useContext(AuthContext);
-  console.log(currentUser);
+  const { currentUser } = useContext(AuthContext);
 
   return (
     <nav className={styles.navbar}>
@@ -15,10 +15,13 @@ const Navbar = () => {
             Movies
           </Link>
           <li className={styles.navList}>
-            <h5 className={styles.movies}>
-              Welcome {currentUser.toUpperCase()}{" "}
+            <h5>
+              Welcome{" "}
+              {currentUser.email.substring(0, currentUser.email.indexOf("@"))}
             </h5>
-            <button className={styles.button}>LogOut</button>
+            <button className={styles.button} onClick={() => logOut()}>
+              LogOut
+            </button>
           </li>
         </>
       ) : (

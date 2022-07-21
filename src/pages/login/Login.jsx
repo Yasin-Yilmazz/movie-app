@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styles from "./Login.module.scss";
 import { FaUserAlt } from "react-icons/fa";
 import { useNavigate } from "react-router";
-import { signIn } from "../../firebase";
+import { signIn, signInWithGoogle } from "../../firebase";
+import GoogleButton from "react-google-button";
 
 const Login = () => {
   const [email, setEmail] = useState();
@@ -12,6 +13,10 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     signIn(email, password, navigate);
+  };
+
+  const handleGoogleSignIn = () => {
+    signInWithGoogle(navigate);
   };
 
   return (
@@ -33,10 +38,8 @@ const Login = () => {
           <button type="submit" className={styles.button}>
             Log In
           </button>
-          <button type="submit" className={styles.googleButton}>
-            GOOGLE
-          </button>
         </form>
+        <GoogleButton onClick={handleGoogleSignIn} />
       </div>
     </div>
   );

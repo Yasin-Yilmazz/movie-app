@@ -5,9 +5,9 @@ import { useState, useEffect } from "react";
 import MovieCard from "../../components/moviecard/MovieCard";
 
 const Main = () => {
-  const [configuration, setConfiguration] = useState("");
+  // const [configuration, setConfiguration] = useState("");
   const [id, setId] = useState("");
-  const API_KEY = "85f2070e3d77b87af191bea79063ad03";
+  const API_KEY = process.env.REACT_APP_FIREBASE_API_KEY;
   const URL = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`;
   const testUrl = `https://api.themoviedb.org/3/movie/550?api_key=85f2070e3d77b87af191bea79063ad03`;
   const getData = async () => {
