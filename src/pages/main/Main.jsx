@@ -1,32 +1,66 @@
-import React from "react";
-import SearchBar from "../../components/searchbar/SearchBar";
+import React, { useContext } from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import MovieCard from "../../components/moviecard/MovieCard";
+import styles from "./Main.module.scss";
+import { AuthContext } from "../../context/AuthContext";
+import { toastWarnNotify } from "../../helpers/ToastNotify";
 
+const API_KEY = process.env.REACT_APP_TMDB_KEY;
+const SEARCH_API = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=`;
+const FEATURED_API = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}`;
 const Main = () => {
-  // const [configuration, setConfiguration] = useState("");
-  const [id, setId] = useState("");
-  const API_KEY = process.env.REACT_APP_FIREBASE_API_KEY;
-  const URL = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`;
-  const testUrl = `https://api.themoviedb.org/3/movie/550?api_key=85f2070e3d77b87af191bea79063ad03`;
-  const getData = async () => {
-    try {
-      const { data } = await axios.get(testUrl);
-      console.log(data.id);
-    } catch (error) {
-      console.log(error);
+  const [loading, setLoading] = useState(false);
+  const [movies, setMovies] = useState([]);
+  const [search, setSearch] = useState("");
+  const { currentUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    getMovies(FEATURED_API);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const getMovies = (API) => {
+    setLoading(true);
+    axios
+      .get(API)
+      .then((res) => setMovies(res.data.results))
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (search && currentUser) {
+      getMovies(SEARCH_API + search);
+    } else if (!currentUser) {
+      toastWarnNotify("Please log in to search a movie");
+    } else {
+      toastWarnNotify("Please enter a text");
     }
   };
 
-  useEffect(() => {
-    getData();
-  });
-
   return (
     <div>
-      <SearchBar getData={getData} />
-      <MovieCard />
+      <form className={styles.searchNav} onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Search a movie"
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <button type="submit" className={styles.button}>
+          Search
+        </button>
+      </form>
+      <div className={styles.main_container}>
+        {loading ? (
+          <div className={styles.loading}>
+            <h1>LOADING...</h1>
+          </div>
+        ) : (
+          movies?.map((movie) => <MovieCard key={movie.id} {...movie} />)
+        )}
+      </div>
     </div>
   );
 };
