@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import MovieCard from "../../components/moviecard/MovieCard";
+import MovieCard from "../../components/movieCard/MovieCard";
 import styles from "./Main.module.scss";
 import { AuthContext } from "../../context/AuthContext";
 import { toastWarnNotify } from "../../helpers/ToastNotify";
